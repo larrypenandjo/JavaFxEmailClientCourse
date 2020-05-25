@@ -1,0 +1,34 @@
+# Cache objects
+packer_cache/
+
+# For built boxes
+*.box
+
+# NetBeans specific 
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Class Files 
+*.class
+
+#pictures
+*.jpeg
+
+# Package Files 
+*.war
+*.ear
+*.nar
+*.zip
+*.7z
+*.tar.gz
+
+# UML diagram files
+*.ucls
+
+# Log files
+*.log
