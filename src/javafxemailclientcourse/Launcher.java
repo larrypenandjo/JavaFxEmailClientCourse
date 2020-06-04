@@ -6,13 +6,17 @@
 package javafxemailclientcourse;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafxemailclientcourse.view.ViewFactory;
 
 /**
  *
  * @author Larry
  */
-public class Launcher extends Application{
+public class Launcher extends Application {
 
     /**
      * @param args the command line arguments
@@ -23,7 +27,14 @@ public class Launcher extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.show();
+//        Parent root = FXMLLoader.load(getClass().getResource("/javafxemailclientcourse/view/LoginWindow.fxml"));
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+
+        ViewFactory viewFactory = new ViewFactory(new EmailManager()); 
+        viewFactory.showOptionsWindow();
+        viewFactory.updateStyles();
     }
-    
+
 }

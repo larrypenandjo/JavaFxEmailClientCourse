@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02.06.2020, 07:02:27
+    Author     : Larry
+*/
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02.06.2020, 07:02:27
+    Author     : Larry
+*/
+
+/*the "*" is the everyting selector*/
+
+*{
+    -fx-background-color: #c5d6d9;
+}
+
+.big{
+    -fx-font-size: 16pt;
+    -fx-text-fill: white;
+}
+
+Button, Label, ChoiceBox, Slider {
+    -fx-text-fill: #394345;
+}
+
+Button{
+    -fx-background-color: #b2ccd1;
+}
+
+Button:hover{
+    -fx-background-color: #9bbec4;
+}
+
+/*"*>"-selector: selects everything in the choicebox and applies the same color*/
+ChoiceBox>*{
+    -fx-background-color: #b2ccd1;
+}
+
+Slider .axis{
+    -fx-tick-label-fill: white;
+}
+
+Slider .track{
+    -fx-background-color: #353b4a;
+}
+
+Slider .track:hover{
+    -fx-background-color: #616c87;
+}
+
+Slider .thumb{
+    -fx-background-color: #85939e;
+}
