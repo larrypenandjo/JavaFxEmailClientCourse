@@ -14,6 +14,8 @@ module JavaFxEmailClientCourse {
     requires javafx.media;
     requires javafx.swing;
     requires javafx.web;
+    requires activation.jar;
+    requires java.mail;
     
     opens javafxemailclientcourse to javafx.fxml;
     opens javafxemailclientcourse.view to javafx.fxml;
