@@ -5,8 +5,11 @@
  */
 package javafxemailclientcourse.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.WebView;
@@ -17,12 +20,12 @@ import javafxemailclientcourse.view.ViewFactory;
  *
  * @author Larry
  */
-public class MainWindowController extends BaseController{
+public class MainWindowController extends BaseController implements Initializable{
 
     @FXML
     private TableView<?> emailsTableView;
     @FXML
-    private TreeView<?> emailsTreeView;
+    private TreeView<String> emailsTreeView;
     @FXML
     private WebView emailWebView;
     
@@ -38,6 +41,16 @@ public class MainWindowController extends BaseController{
     @FXML
     private void addAccountAction(ActionEvent event) {//the email client offers the possibility to login more than one account
         viewFactory.showLoginWindow();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        setUpEmailsTreeView();
+    }
+
+    private void setUpEmailsTreeView() {
+        emailsTreeView.setRoot(emailManager.getFoldersRoot());//set the root element of the treeview
+        emailsTreeView.setShowRoot(false);//this root is set to false because it just an empty element
     }
     
 }

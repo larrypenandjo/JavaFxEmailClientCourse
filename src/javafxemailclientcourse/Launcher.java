@@ -33,7 +33,7 @@ public class Launcher extends Application {
 //        stage.show();
 
         ViewFactory viewFactory = new ViewFactory(new EmailManager()); 
-        viewFactory.showOptionsWindow();
+        viewFactory.showLoginWindow();
         viewFactory.updateStyles();
     }
 
