@@ -20,6 +20,7 @@ module JavaFxEmailClientCourse {
     opens javafxemailclientcourse to javafx.fxml;
     opens javafxemailclientcourse.view to javafx.fxml;
     opens javafxemailclientcourse.controller to javafx.fxml;
+    opens javafxemailclientcourse.model to javafx.base;
     
     exports javafxemailclientcourse;
     exports javafxemailclientcourse.controller;

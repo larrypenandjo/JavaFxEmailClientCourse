@@ -43,14 +43,38 @@ public class FetchFoldersServive extends Service<Void> {
     }
 
     private void handleFolders(Folder[] folders, EmailTreeItem<String> foldersRoot) throws MessagingException {
-        for(Folder folder: folders){
+        for (Folder folder : folders) {
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(folder.getName());
             foldersRoot.getChildren().add(emailTreeItem);
             foldersRoot.setExpanded(true);
-            if(folder.getType()==Folder.HOLDS_FOLDERS){ //to display subfolders make sure there some
+            fecthMessagesOnFolder(folder, emailTreeItem);
+            if (folder.getType() == Folder.HOLDS_FOLDERS) { //to display subfolders make sure there some
                 Folder[] subFolders = folder.list();
                 handleFolders(subFolders, emailTreeItem);
             }
         }
+    }
+
+    private void fecthMessagesOnFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
+        Service fetchMessagesService = new Service() {//creating services to get message (email subject) on folders-->for each folder one service
+            @Override
+            protected Task createTask() {
+                return new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        if (folder.getType() != Folder.HOLDS_FOLDERS) {//without this check java mail will throw an exception
+                            folder.open(Folder.READ_WRITE);
+                            int folderSize = folder.getMessageCount();
+                            for (int i = folderSize; i > 0; i--) {
+//                                System.out.println(folder.getMessage(i).getSubject());
+                                emailTreeItem.addEmail(folder.getMessage(i));
+                            }
+                        }
+                        return null;
+                    }
+                };
+            }
+        };
+        fetchMessagesService.start();
     }
 }
