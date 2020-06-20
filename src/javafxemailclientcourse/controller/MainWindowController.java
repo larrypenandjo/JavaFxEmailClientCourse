@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -54,6 +56,9 @@ public class MainWindowController extends BaseController implements Initializabl
     @FXML
     private WebView emailWebView;
     
+    private MenuItem markUnreadMenuItem = new MenuItem("mark as unread");
+    private MenuItem deleteMessageMenuItem = new MenuItem("delete message");
+    
     private MessageRendererService messageRendererService;
     
     public MainWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName){
@@ -78,6 +83,7 @@ public class MainWindowController extends BaseController implements Initializabl
         setUpBoldRows();//unread messges are set bold
         setUpMessageRendererService();//visualize message
         setUpMessageSelection();//the message renderer service shall be executed for all selected messages
+        setUpContextMenus();//set actions to created context menu button
     }
 
     private void setUpEmailsTreeView() {
@@ -91,12 +97,14 @@ public class MainWindowController extends BaseController implements Initializabl
         recipientCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, SizeInteger>("size"));
         dateCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
+        emailsTableView.setContextMenu(new ContextMenu(markUnreadMenuItem, deleteMessageMenuItem));
     }
 
     private void setUpFolderSelection() {
         emailsTreeView.setOnMouseClicked(e->{
             EmailTreeItem<String> item = (EmailTreeItem<String>)emailsTreeView.getSelectionModel().getSelectedItem();
             if(item!=null){
+                emailManager.setSelectedFolder(item);
                 emailsTableView.setItems(item.getEmailMessages());
             }
         });
@@ -131,9 +139,23 @@ public class MainWindowController extends BaseController implements Initializabl
         emailsTableView.setOnMouseClicked(e->{
             EmailMessage emailMessage = emailsTableView.getSelectionModel().getSelectedItem();
             if(emailMessage!=null){
+                emailManager.setSelectedMessage(emailMessage);
+                if(!emailMessage.isRead()){
+                    emailManager.setRead();
+                }
                 messageRendererService.setEmailMessage(emailMessage);
                 messageRendererService.restart();//restart for this service because it can be called many times -->with the start()-method can only be used onced, if called twice an error is going to be thrown
             }
+        });
+    }
+
+    private void setUpContextMenus() {
+        markUnreadMenuItem.setOnAction(e->{
+            emailManager.setUnRead();
+        });
+        deleteMessageMenuItem.setOnAction(e->{
+            emailManager.deleteSelectedMessage();
+            emailWebView.getEngine().loadContent("");
         });
     }
     
